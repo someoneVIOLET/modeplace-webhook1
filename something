@@ -1,17 +1,32 @@
+repeat task.wait() until game:IsLoaded()
+repeat task.wait() until game.Players.LocalPlayer
+
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
 
 local player = Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local root = char:WaitForChild("HumanoidRootPart")
+repeat task.wait() until player.Character
 
-local teleporter = workspace.Map.Walls.SpinningMaze.WebhookExit.Teleporter
+local char = player.Character
+repeat task.wait() until char:FindFirstChild("HumanoidRootPart")
 
--- PROTECT against non-BasePart objects
-if root:IsA("BasePart") and teleporter:IsA("BasePart") then
+local root = char:FindFirstChild("HumanoidRootPart")
+
+local teleporter = workspace
+    .Map
+    .Walls
+    .SpinningMaze
+    .WebhookExit
+    .Teleporter
+
+if typeof(root) == "Instance" and root:IsA("BasePart")
+and typeof(teleporter) == "Instance" and teleporter:IsA("BasePart") then
+    task.wait(0.1)
     firetouchinterest(root, teleporter, 0)
+    task.wait(0.1)
+    firetouchinterest(root, teleporter, 1)
 else
-    warn("One of the parts is not a BasePart — skipping touch")
+    warn("Touch skipped because one of the objects isn't a BasePart")
 end
 
 queue_on_teleport([[
