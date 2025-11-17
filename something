@@ -1,4 +1,5 @@
 while true do
-game:GetService("TeleportService"):Teleport(138009838341810)
 firetouchinterest(game:GetService("Players").LocalPlayer.Character:FindFirstChild("Left Leg"), workspace.Map.Walls.SpinningMaze.WebhookExit.Teleporter, 0)
+queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/someoneVIOLET/modeplace-webhook1/refs/heads/main/something'))()")
+game:GetService("TeleportService"):Teleport(138009838341810)
 end
