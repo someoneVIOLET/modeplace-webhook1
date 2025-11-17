@@ -1,0 +1,4 @@
+while true do
+game:GetService("TeleportService"):Teleport(112621531789602)
+firetouchinterest(game:GetService("Players").LocalPlayer.Character:FindFirstChild("Left Leg"), workspace.Kit.Exits:GetChildren()[12].Teleporter, 0)
+end
